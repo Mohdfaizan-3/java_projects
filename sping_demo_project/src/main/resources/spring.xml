@@ -11,6 +11,11 @@
 <!--        <property name="com" ref="laptop"/>-->
 <!--        <property name="lap" ref="laptop"/>-->
 
+<!--        inner beam is used when we want inner bean to use by only its parent not other-->
+        <property name="com">
+            <bean name="desktop" class="org.example.Desktop" primary="true"/>
+        </property>
+
 <!--        <constructor-arg type="org.example.Laptop" ref="laptop"/>-->
 <!--        <constructor-arg type="int" value="1"/>-->
 <!--        <constructor-arg type="int" value="0"/>-->
@@ -19,7 +24,8 @@
         <constructor-arg index="2" value="0"/>
     </bean>
     <bean id="laptop" class="org.example.Laptop" scope="prototype" primary="true"/>
-    <bean id="desktop" class="org.example.Desktop" scope="prototype"/>
+    <bean id="desktop" class="org.example.Desktop" scope="prototype" lazy-init="true"/>
+<!--    lazy init -> to stop loading the bean(singleton obj)  into the container when not using it-->
 
 </beans>
 

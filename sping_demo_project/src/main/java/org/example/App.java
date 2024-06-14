@@ -15,6 +15,14 @@ public class App
 
 
 
+        // no need to type cast
+//            Computer com = context.getBean(Desktop.class);
+//            com.working();
+
+        // no need to type cast
+//        Computer com = context.getBean("desktop", Desktop.class);
+//        com.working();
+
         // constructor injection
 //        Alien alien = (Alien) context.getBean("alienNonMutable");
 //        System.out.println(alien.getAge());
