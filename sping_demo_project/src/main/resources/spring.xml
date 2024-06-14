@@ -5,7 +5,11 @@
 
     <!-- bean definitions here -->
     <bean id="alien" class="org.example.Alien" scope="singleton"/>
-    <bean id="alienNonMutable" class="org.example.Alien" scope="prototype"/>
+    <bean id="alienNonMutable" class="org.example.Alien" scope="prototype">
+        <property name="age" value="1"/>
+        <property name="lap" ref="laptop"/>
+    </bean>
+    <bean id="laptop" class="org.example.Laptop" scope="prototype"/>
 
 </beans>
 
