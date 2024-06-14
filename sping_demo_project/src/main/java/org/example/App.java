@@ -1,6 +1,8 @@
 package org.example;
 
+import javaConfig.javaConfig;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -11,9 +13,19 @@ public class App
 {
     public static void main( String[] args )
     {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");//get mvn dependency "spring context"
+        // using java based config
+        ApplicationContext context = new AnnotationConfigApplicationContext(javaConfig.class);
+        Computer desktop = context.getBean(Desktop.class);// here we are specifying the type desktop
+        desktop.working();
 
 
+
+
+
+
+
+        // using XML based config
+       // ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");//get mvn dependency "spring context"
 
         // no need to type cast
 //            Computer com = context.getBean(Desktop.class);
