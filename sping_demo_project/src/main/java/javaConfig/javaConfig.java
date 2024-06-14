@@ -6,7 +6,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class javaConfig {
-    @Bean
+//    @Bean(name = {"beast", "desktop"}) here we can specfied bean name
+    @Bean// default bean name destop()
     public Desktop desktop() {
         return new Desktop();
     }

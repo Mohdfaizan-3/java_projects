@@ -15,8 +15,12 @@ public class App
     {
         // using java based config
         ApplicationContext context = new AnnotationConfigApplicationContext(javaConfig.class);
-        Computer desktop = context.getBean(Desktop.class);// here we are specifying the type desktop
-        desktop.working();
+
+        Computer destop = context.getBean("desktop", Desktop.class); // by using bean name here desktop is desktop() in javaconfig class
+        destop.working();
+
+//        Computer desktop = context.getBean(Desktop.class);// here we are specifying the type desktop
+//        desktop.working();
 
 
 
