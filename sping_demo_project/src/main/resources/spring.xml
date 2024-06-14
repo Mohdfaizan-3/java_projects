@@ -8,6 +8,13 @@
     <bean id="alienNonMutable" class="org.example.Alien" scope="prototype">
         <property name="age" value="1"/>
         <property name="lap" ref="laptop"/>
+        <property name="salary" value="0"/>
+<!--        <constructor-arg type="org.example.Laptop" ref="laptop"/>-->
+<!--        <constructor-arg type="int" value="1"/>-->
+<!--        <constructor-arg type="int" value="0"/>-->
+        <constructor-arg index="0" value="1"/>
+        <constructor-arg index="1" ref="laptop"/>
+        <constructor-arg index="2" value="0"/>
     </bean>
     <bean id="laptop" class="org.example.Laptop" scope="prototype"/>
 

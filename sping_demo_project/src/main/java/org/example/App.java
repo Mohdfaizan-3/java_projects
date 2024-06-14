@@ -12,9 +12,30 @@ public class App
     public static void main( String[] args )
     {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");//get mvn dependency "spring context"
-        Alien alien1 = (Alien)  context.getBean("alienNonMutable");// create a spring.xml file in resource folder and add beam
-        System.out.println(alien1.getAge());//1 setter injection
-        alien1.getLap().working();//laptop// ref attribute
+
+
+
+        // constructor injection
+//        Alien alien = (Alien) context.getBean("alienNonMutable");
+//        System.out.println(alien.getAge());
+//        System.out.println(alien.getSalary());
+//        System.out.println(alien.getLap());
+
+//        alien.setAge(4);
+//        alien.setSalary(10000);
+//        System.out.println(alien.getAge());
+//        System.out.println(alien.getSalary());
+//        System.out.println(alien.getLap());
+
+
+
+
+
+//setter and ref
+//        Alien alien1 = (Alien)  context.getBean("alienNonMutable");// create a spring.xml file in resource folder and add beam
+//        System.out.println(alien1.getAge());//1 setter injection
+//        alien1.getLap().working();//laptop// ref attribute
+
 
 
 
