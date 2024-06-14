@@ -4,6 +4,10 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- bean definitions here -->
-    <bean id="alien" class="org.example.Alien"/>
+    <bean id="alien" class="org.example.Alien" scope="singleton"/>
+    <bean id="alienNonMutable" class="org.example.Alien" scope="prototype"/>
 
 </beans>
+
+<!--singleton -> object is mutable and obj is created when container loads,
+ prototype -> new obj created everytime we say getBean() and obj is not created at container load-->
