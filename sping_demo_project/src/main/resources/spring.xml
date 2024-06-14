@@ -19,7 +19,8 @@
         <constructor-arg index="2" value="0"/>
     </bean>
     <bean id="laptop" class="org.example.Laptop" scope="prototype" primary="true"/>
-    <bean id="desktop" class="org.example.Desktop" scope="prototype"/>
+    <bean id="desktop" class="org.example.Desktop" scope="prototype" lazy-init="true"/>
+<!--    lazy init -> to stop loading the bean(singleton obj)  into the container when not using it-->
 
 </beans>
 
