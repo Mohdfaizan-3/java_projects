@@ -31,6 +31,7 @@ public class Alien {
     public void setCom(Computer com) {
         this.com = com;
    }
+
 //    public void setLap(Laptop lap) {
 //        this.lap = lap;
 //    }
@@ -42,6 +43,7 @@ public class Alien {
     public Computer getCom() {
         return com;
     }
+
 //    public Laptop getLap() {
 //        return lap;
 //    }
