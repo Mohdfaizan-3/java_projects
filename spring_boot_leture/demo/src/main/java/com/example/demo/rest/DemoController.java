@@ -13,9 +13,13 @@ public class DemoController {
     private Coach myCoach;
 
     @Autowired
-    public DemoController(@Qualifier("baseBallCoach") Coach coach) {
-        this.myCoach = coach;
+    public DemoController(Coach myCoach) {
+        this.myCoach = myCoach;
     }
+//    @Autowired
+//    public DemoController(@Qualifier("baseBallCoach") Coach coach) {
+//        this.myCoach = coach;
+//    }
 
 //    @Autowired
 //    public void setMyCoach(Coach myCoach) {
