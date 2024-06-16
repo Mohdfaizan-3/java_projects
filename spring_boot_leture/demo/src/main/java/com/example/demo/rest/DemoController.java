@@ -16,10 +16,15 @@ public class DemoController {
 //    public DemoController(Coach myCoach) {
 //        this.myCoach = myCoach;
 //    }
+
     @Autowired
-    public DemoController(@Qualifier("baseBallCoach") Coach coach) {
+    public  DemoController(@Qualifier("aquatic") Coach coach) {
         this.myCoach = coach;
     }
+//    @Autowired
+//    public DemoController(@Qualifier("baseBallCoach") Coach coach) {
+//        this.myCoach = coach;
+//    }
 
 //    @Autowired
 //    public void setMyCoach(Coach myCoach) {
