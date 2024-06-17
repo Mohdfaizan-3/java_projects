@@ -21,8 +21,16 @@ public class CrudDemoApplication {
 		return runner -> {
 			//createStudent(studentDao);
 			//readStudent(studentDao);
-			queryForStudents(studentDao);
+			//queryForStudents(studentDao);
+			queryForStudentsByLastName(studentDao);
 		};
+	}
+
+	private void queryForStudentsByLastName(StudentDao studentDao) {
+		List<Student> students = studentDao.findByLastName("yadav");
+		for (Student student : students) {
+			System.out.println(student);
+		}
 	}
 
 	private void queryForStudents(StudentDao studentDao) {
