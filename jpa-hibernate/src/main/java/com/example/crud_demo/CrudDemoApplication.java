@@ -17,8 +17,16 @@ public class CrudDemoApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(StudentDao studentDao) {//executed after the beans are loaded
 		return runner -> {
-			createStudent(studentDao);
+			//createStudent(studentDao);
+			readStudent(studentDao);
 		};
+	}
+
+	private void readStudent(StudentDao studentDao) {
+		Student student = new Student("ravi", "yadav", "ravi@gmail.com");
+		int id = student.getId();
+		Student student1 = studentDao.findById(id);
+		System.out.println(student);
 	}
 
 	private void createStudent(StudentDao studentDao) {
