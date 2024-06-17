@@ -45,6 +45,12 @@ public class StudentDaoImpl implements StudentDao{
         return theQuery.getResultList();
     }
 
+    @Transactional // since we are updating
+    @Override
+    public void update(Student student) {
+        entityManager.merge(student);
+    }
+
 //    @Override
 //    public List<Student> findAll() {
 //        TypedQuery<Student> theQuery = entityManager.createQuery("FROM Student", Student.class);
