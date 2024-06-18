@@ -2,9 +2,11 @@ package com.example.crud_demo;
 
 import com.example.crud_demo.dao.StudentDao;
 import com.example.crud_demo.entity.Student;
+import com.example.crud_demo.rest.RestController;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import java.util.List;
@@ -13,8 +15,11 @@ import java.util.List;
 public class CrudDemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CrudDemoApplication.class, args);
+
+		ApplicationContext context = SpringApplication.run(CrudDemoApplication.class, args);
+//		context.getBean(RestController.class);
 	}
+
 
 	@Bean
 	public CommandLineRunner commandLineRunner(StudentDao studentDao) {//executed after the beans are loaded
@@ -25,7 +30,7 @@ public class CrudDemoApplication {
 			//queryForStudentsByLastName(studentDao);
 			//updateStudent(studentDao);
 			//deleteStudent(studentDao);
-			deleteAllStudent(studentDao);
+			//deleteAllStudent(studentDao);
 		};
 	}
 
