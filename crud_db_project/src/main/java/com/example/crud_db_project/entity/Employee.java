@@ -2,6 +2,8 @@ package com.example.crud_db_project.entity;
 
 import jakarta.persistence.*;
 
+//Entity: In Java and Spring Boot, an entity represents a table in a database.
+// Each instance of an entity corresponds to a row in the table.
 @Entity
 @Table(name = "employee")
 public class Employee {
