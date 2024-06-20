@@ -66,6 +66,15 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+        
+        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework/spring-jdbc &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework</groupId>-->
+        <!--            <artifactId>spring-jdbc</artifactId>-->
+        <!--            <version>6.1.6</version>-->
+        <!--        </dependency>-->
+
+
     </dependencies>
 
     <build>
