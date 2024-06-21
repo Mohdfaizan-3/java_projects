@@ -6,6 +6,8 @@
     <title>Title</title>
 </head>
 <body>
-<h3>Student confirmed <span th:text="${student.firstName} + '' + ${student.lastName}"></span></h3>
+<h3>Student confirmed <span th:text="${student.firstName} + ' ' + ${student.lastName}"></span></h3>
+<br>
+Country <span th:text="${student.country}"></span>
 </body>
 </html>

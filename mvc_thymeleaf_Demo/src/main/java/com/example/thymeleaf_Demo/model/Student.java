@@ -1,10 +1,19 @@
 package com.example.thymeleaf_Demo.model;
 
 public class Student {
-    String firstName;
-    String lastName;
+    private String firstName;
+    private String lastName;
+    private String country;
 
     public Student() {
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getFirstName() {
