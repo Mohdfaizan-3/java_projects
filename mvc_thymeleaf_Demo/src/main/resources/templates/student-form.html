@@ -16,6 +16,15 @@
     <select th:field="${student.country}">
        <option th:each="tempCountry: ${countries}" th:value="${tempCountry}" th:text="${tempCountry}"></option>
     </select>
+    Language
+    <input type="radio" th:field="${student.language}"
+           th:each="templang: ${languages}"
+           th:value="${templang}"
+           th:text="${templang}">
+
+<!--    <input type="radio" th:field="${student.language}" th:value="java">Java</input>-->
+<!--    <input type="radio" th:field="${student.language}" th:value="python">Python</input>-->
+
 <!--    <select th:field="${student.country}">-->
 <!--        <option th:value="India">India</option>-->
 <!--        <option th:value="France">France</option>-->

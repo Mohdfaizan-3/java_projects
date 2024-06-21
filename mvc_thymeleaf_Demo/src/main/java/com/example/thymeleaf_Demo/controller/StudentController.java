@@ -15,6 +15,9 @@ public class StudentController {
     @Value("${countries}") // to inject from properties file
     private List<String> countries;
 
+    @Value("${languages}")
+    private List<String> languages;
+
     @GetMapping("/showStudentForm")
     public String showForm(Model model) {
         // create a new student obj
@@ -22,6 +25,8 @@ public class StudentController {
         model.addAttribute("student", theStudent);
         // add list of countries  to model
         model.addAttribute("countries", countries);
+        model.addAttribute("languages", languages);
+
         return "student-form";
     }
 
