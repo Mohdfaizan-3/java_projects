@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class Demo_Controller {
-    @GetMapping("/hello")
+    @GetMapping("/demo")
     public String sayHello(Model model) {
         model.addAttribute("theDate", java.time.LocalDateTime.now());
-        return "helloWorld";
+        return "demo";
     }
 }
