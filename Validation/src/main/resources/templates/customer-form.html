@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>customer form</title>
+    <style>
+        .error {
+         color: red
+        }
+    </style>
+</head>
+<body>
+<h1>Fill the form</h1>
+<form th:action="@{/processForm}" th:object="${customer}" method="POST">
+    FirstName: <label>
+    <input type="text" th:field="${customer.firstName}">
+</label>
+    <br>
+    LastName: <label>
+    <input type="text" th:field="${customer.lastName}">
+    <span th:if="${#fields.hasErrors('lastName')}"
+          th:errors="${customer.lastName}"
+          class="error"></span>
+</label>
+    <br>
+    Free passes: <label>
+    <input type="text" th:field="${customer.freePasses}"/>
+    <span th:if="${#fields.hasErrors('freePasses')}"
+          th:errors="${customer.freePasses}"
+          class="error"></span>
+</label>
+
+    <input type="submit" value="SUBMIT">
+</form>
+</body>
+</html>
