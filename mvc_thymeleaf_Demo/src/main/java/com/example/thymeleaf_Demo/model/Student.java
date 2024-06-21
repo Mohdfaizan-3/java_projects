@@ -4,6 +4,15 @@ public class Student {
     private String firstName;
     private String lastName;
     private String country;
+    private String system;
+
+    public String getSystem() {
+        return system;
+    }
+
+    public void setSystem(String system) {
+        this.system = system;
+    }
 
     public String getLanguage() {
         return language;

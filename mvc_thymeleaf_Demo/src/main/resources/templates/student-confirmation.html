@@ -11,6 +11,10 @@
 Country <span th:text="${student.country}"></span>
 <br>
 language <span th:text="${student.language}"></span>
+<br>
+<ul>
+    <li th:each="tempSystem : ${student.system}" th:text="${tempSystem}"></li>
+</ul>
 
 </body>
 </html>
