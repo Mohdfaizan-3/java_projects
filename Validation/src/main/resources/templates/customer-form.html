@@ -40,6 +40,14 @@
           class="error"></span>
 </label>
 
+    <label>
+        Course code:
+        <input type="text" th:field="${customer.courseCode}"/>
+        <span th:if="${#fields.hasErrors('courseCode')}"
+              th:errors="${customer.courseCode}"
+              class="error"></span>
+    </label>
+
     <input type="submit" value="SUBMIT">
 </form>
 </body>
