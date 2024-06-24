@@ -9,7 +9,7 @@ class BookModel {
   img?: string;
 
   constructor(
-    id: number,
+    id : number,
     title: string,
     author: string,
     description: string,

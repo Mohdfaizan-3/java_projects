@@ -1,9 +1,8 @@
 package com.project.library_app_react_springboot.entity;
 
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Generated;
 
-import javax.persistence.*;
 
 @Entity
 @Table(name = "book")

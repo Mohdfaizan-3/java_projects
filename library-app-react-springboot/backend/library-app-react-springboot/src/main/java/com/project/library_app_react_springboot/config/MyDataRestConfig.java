@@ -1,6 +1,7 @@
 package com.project.library_app_react_springboot.config;
 
 import com.project.library_app_react_springboot.entity.Book;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
  *Expose Entity IDs, Configure CORS (Cross-Origin Resource Sharing): Allow requests from a specific origin (http://localhost:3000), which is typically the frontend application
  *
  *  */
+@Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
 
     @Override
@@ -23,14 +25,14 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(Book.class, configuration, unsupportedAction);
         // Configure CORS
         //able to make req to frontend
-        String isAllowedOrigins = "http://localhost:3000";
-        corsRegistry.addMapping("/**").allowedOrigins(isAllowedOrigins);
+
+        corsRegistry.addMapping("/**").allowedOrigins("http://localhost:3000");
     }
 
-    private void disableHttpMethods(Class<?> theClass, RepositoryRestConfiguration configuration, HttpMethod[] unsupportedActions) {
+    private void disableHttpMethods(Class theClass, RepositoryRestConfiguration configuration, HttpMethod[] unsupportedActions) {
         configuration.getExposureConfiguration()
                 .forDomainType(theClass)
-                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions))
+                .withItemExposure((metadata, httpMethods) -> httpMethods.disable(unsupportedActions))
                 .withCollectionExposure((metadata, httpMethods) -> httpMethods.disable(unsupportedActions));
         // .withItemExposure() and .withCollectionExposure() to disable the specified unsupportedActions for both item (single entity)
         // and collection (list of entities) resources of the domain type (theClass).
