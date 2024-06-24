@@ -1,10 +1,14 @@
 import "./App.css";
-import Navbar from "./layout/navbar";
+import { Carousel } from "./layout/HomePage/Carousel";
+import { ExploreBook } from "./layout/HomePage/ExploreBook";
+import Navbar from "./layout/Navbar";
 
 function App() {
   return (
     <div>
-      <Navbar/>
+      <Navbar />
+      <ExploreBook />
+      <Carousel/>
     </div>
   );
 }
