@@ -8,7 +8,7 @@ export const SearchBookPage = () => {
   const [loading, setLoading] = useState(true);
   const [httpError, setHttpError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [booksPerPage] = useState(2);
+  const [booksPerPage] = useState(1);
   const [totalAmountOfBooks, setTotalAmountOfBooks] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
 
@@ -61,11 +61,14 @@ export const SearchBookPage = () => {
     return <div className="container m-5">{httpError}</div>;
   }
 
-  const indexOfLastBook: number = currentPage * booksPerPage;
-  const indexOfFirstBook: number = indexOfLastBook - booksPerPage;
+  const indexOfFirstBook: number = currentPage * booksPerPage - booksPerPage;
+  // const lastItem =
+  //   booksPerPage * currentPage <= totalAmountOfBooks
+  //     ? booksPerPage * currentPage
+  //     : totalAmountOfBooks;
   const lastItem =
-    booksPerPage * currentPage <= totalAmountOfBooks
-      ? booksPerPage * currentPage
+    currentPage !== totalPage
+      ? indexOfFirstBook + booksPerPage
       : totalAmountOfBooks;
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);

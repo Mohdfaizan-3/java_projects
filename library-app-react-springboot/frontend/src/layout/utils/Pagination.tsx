@@ -8,28 +8,28 @@ const Pagination: React.FC<{
   const pageNumber = [];
 
   if (props.currentPage === 1) {
-    pageNumber.push(props.currentPage);
+    pageNumber.push(props.currentPage); // page is 1
     if (props.totalPage >= props.currentPage + 1) {
-      pageNumber.push(props.currentPage + 1);
+      pageNumber.push(props.currentPage + 1);  // page is 1,2
       if (props.totalPage >= props.currentPage + 2) {
-        pageNumber.push(props.currentPage + 2);
+        pageNumber.push(props.currentPage + 2); // page is 1,2,3
       }
     }
   } else if (props.currentPage > 1) {
     if (props.currentPage >= 3) {
-      pageNumber.push(props.currentPage - 2);
-      pageNumber.push(props.currentPage - 1);
+      pageNumber.push(props.currentPage - 2); // previous to previous page no.
+      pageNumber.push(props.currentPage - 1); // previous page no.
     } else {
-      pageNumber.push(props.currentPage - 1);
+      pageNumber.push(props.currentPage - 1); // page is 2 then 1,2
     }
     pageNumber.push(props.currentPage);
 
     if (props.totalPage >= props.currentPage + 1) {
-      pageNumber.push(props.currentPage + 1);
+      pageNumber.push(props.currentPage + 1); // next page 
     }
 
     if (props.totalPage >= props.currentPage + 2) {
-      pageNumber.push(props.currentPage + 2);
+      pageNumber.push(props.currentPage + 2); // next to next page
     }
   }
 
