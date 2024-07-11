@@ -6,19 +6,28 @@ import { SearchBook } from "./components/SearchBook";
 export const SearchBookPage = () => {
   const [books, setBooks] = useState<BookModel[]>([]);
   const [loading, setLoading] = useState(true);
-  const [httpError, setHttpError] = useState<string | null>(null);
+  const [httpError, setHttpError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [booksPerPage] = useState(1);
+  const [booksPerPage] = useState(5);
   const [totalAmountOfBooks, setTotalAmountOfBooks] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
+  const [search, setSearch] = useState("");
+  const [searchUrl, setSearchUrl] = useState("");
+  const [category, setCategory] = useState("book selection");
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
         const baseUrl: string = "http://localhost:8080/api/books";
-        const url: string = `${baseUrl}?page=${
-          currentPage - 1
-        }&size=${booksPerPage}`;
+
+        let url: string = "";
+
+        if (searchUrl === "") {
+          url = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`;
+        } else {
+          let page = searchUrl.replace('<pageNumber>', `${currentPage-1}`);
+          url = baseUrl + page;
+        }
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -51,7 +60,7 @@ export const SearchBookPage = () => {
 
     fetchBooks();
     window.scrollTo(0, 0);
-  }, [currentPage, booksPerPage]);
+  }, [currentPage, searchUrl, booksPerPage]);
 
   if (loading) {
     return <div className="container m-5">Loading....</div>;
@@ -59,6 +68,33 @@ export const SearchBookPage = () => {
 
   if (httpError) {
     return <div className="container m-5">{httpError}</div>;
+  }
+
+  const handleSearch = () => {
+    setCurrentPage(1);
+    if (search === "") {
+      setSearchUrl("");
+    } else {
+      setSearchUrl(
+        `/search/findByTitleContaining?title=${search}&page=<pageNumber>&size=${booksPerPage}`
+      );
+    }
+    setCategory("book category");
+  };
+
+  const setCategoryField = (value : string) => {
+    setCurrentPage(1);
+    if (
+      value.toLowerCase() === "fe" ||
+      value.toLowerCase() === "be" ||
+      value.toLowerCase() === "data" ||
+      value.toLowerCase() === "devops"
+    ) {
+      setCategory(value.toLowerCase());
+      setSearchUrl(`/search/findByCategory?category=${value.toLowerCase()}&page=<pageNumber>&size=${booksPerPage}`);
+    } else {
+      setSearchUrl("");
+    }
   }
 
   const indexOfFirstBook: number = currentPage * booksPerPage - booksPerPage;
@@ -85,8 +121,14 @@ export const SearchBookPage = () => {
                   type="search"
                   placeholder="search"
                   aria-labelledby="search"
+                  onChange={(e) => setSearch(e.target.value)}
                 />
-                <button className="btn btn-outline-success">Search</button>
+                <button
+                  className="btn btn-outline-success"
+                  onClick={() => handleSearch()}
+                >
+                  Search
+                </button>
               </div>
             </div>
             <div className="col-4">
@@ -98,33 +140,33 @@ export const SearchBookPage = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Category
+                  {category}
                 </button>
                 <ul
                   className="dropdown-menu"
                   aria-labelledby="dropdownMenuBtn1"
                 >
-                  <li>
+                  <li onClick={() => setCategoryField("All")}>
                     <a className="dropdown-item" href="#">
                       All
                     </a>
                   </li>
-                  <li>
+                  <li onClick={() => setCategoryField("FE")}>
                     <a className="dropdown-item" href="#">
                       Frontend
                     </a>
                   </li>
-                  <li>
+                  <li onClick={() => setCategoryField("BE")}>
                     <a className="dropdown-item" href="#">
                       Backend
                     </a>
                   </li>
-                  <li>
+                  <li onClick={() => setCategoryField("Data")}>
                     <a className="dropdown-item" href="#">
                       Data
                     </a>
                   </li>
-                  <li>
+                  <li onClick={() => setCategoryField("Devops")}>
                     <a className="dropdown-item" href="#">
                       DevOps
                     </a>
@@ -133,15 +175,30 @@ export const SearchBookPage = () => {
               </div>
             </div>
           </div>
-          <div className="mt-3">
-            <h5>Number of results : ({totalAmountOfBooks})</h5>
-          </div>
-          <p>
-            {indexOfFirstBook + 1} to {lastItem} of {totalAmountOfBooks} items
-          </p>
-          {books.map((book) => (
-            <SearchBook book={book} key={book.id} />
-          ))}
+          {totalAmountOfBooks > 0 ? (
+            <>
+              <div className="mt-3">
+                <h5>Number of results : ({totalAmountOfBooks})</h5>
+              </div>
+              <p>
+                {indexOfFirstBook + 1} to {lastItem} of {totalAmountOfBooks}{" "}
+                items
+              </p>
+              {books.map((book) => (
+                <SearchBook book={book} key={book.id} />
+              ))}
+            </>
+          ) : (
+            <>
+              <div className="m-3">
+                <h3>cannot find the result</h3>
+                <a href="#" type="button" className="btn-primary">
+                  Service
+                </a>
+              </div>
+            </>
+          )}
+
           {totalPage > 1 && (
             <Pagination
               currentPage={currentPage}

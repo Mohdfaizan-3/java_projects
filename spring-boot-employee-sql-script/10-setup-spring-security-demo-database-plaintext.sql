@@ -32,9 +32,12 @@ VALUES
 CREATE TABLE `authorities` (
   `username` varchar(50) NOT NULL,
   `authority` varchar(50) NOT NULL,
-  UNIQUE KEY `authorities_idx_1` (`username`,`authority`),
+  UNIQUE KEY `authorities_idx_1` (`username`,`authority`),--  single user cannot have the same authority more than once.
   CONSTRAINT `authorities_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Unique Key Constraint: Ensures that each user-authority pair is unique.
+-- Foreign Key Constraint: Ensures that each user in the authorities table exists in the users table
 
 --
 -- Inserting data for table `authorities`
