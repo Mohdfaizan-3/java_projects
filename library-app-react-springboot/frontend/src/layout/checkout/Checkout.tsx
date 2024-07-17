@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import BookModel from "../../models/BookModel";
+import ReviewModel from "../../models/ReviewModel";
 import { StarsReview } from "../utils/StarsReview";
 import { CheckoutAndReviewBox } from "./CheckoutAndReview";
+import { LatestReviews } from "./LatestReviews";
 
 export const Checkout = () => {
   const [book, setBook] = useState<BookModel>();
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(null);
+
+  const [reviews, setReviews] = useState<ReviewModel[]>([]);
+  const [totalStars, setTotalStars] = useState(0);
+  const [isLoadingReviews, setIsLoadingReview] = useState(false);
 
   const bookId = window.location.pathname.split("/")[2];
 
@@ -42,7 +48,52 @@ export const Checkout = () => {
     });
   }, []);
 
-  if (isLoading) {
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const url: string = `http://localhost:8080/api/reviews/search/findByBookId?bookId=${bookId}`;
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error("something went wrong");
+      }
+
+      const data = await response.json();
+
+      const reviews = data._embedded.reviews;
+      console.log(reviews);
+
+      const loadedReview: ReviewModel[] = [];
+      let weightedStarReviews: number = 0;
+
+      for (const key in reviews) {
+        loadedReview.push({
+          id: reviews[key].id,
+          userEmail: reviews[key].userEmail,
+          date: reviews[key].date,
+          rating: reviews[key].rating,
+          book_id: reviews[key].bookId,
+          reviewDescription: reviews[key].reviewDescription,
+        });
+        weightedStarReviews = weightedStarReviews + reviews[key].rating;
+      }
+
+      if (loadedReview) {
+        const round = (
+          Math.round((weightedStarReviews / loadedReview.length) * 2) / 2
+        ).toFixed(1);
+        setTotalStars(Number(round));
+      }
+
+      setReviews(loadedReview);
+      setIsLoadingReview(false);
+    };
+    fetchReviews().catch((error: any) => {
+      setIsLoadingReview(false);
+      setHttpError(error);
+    });
+  }, []);
+
+  if (isLoading || isLoadingReviews) {
     return <div>Loading...</div>;
   }
 
@@ -75,12 +126,13 @@ export const Checkout = () => {
               <h2>{book?.title}</h2>
               <h5 className="text-primary">{book?.author}</h5>
               <p className="lead">{book?.description}</p>
-              <StarsReview rating={0} size={0} />
+              <StarsReview rating={totalStars} size={32} />
             </div>
           </div>
           <CheckoutAndReviewBox book={book} mobile={false} />
         </div>
         <hr />
+        <LatestReviews reviews={reviews} bookId={book?.id} mobile={false} />
       </div>
       <div className="container d-lg-none mt-5">
         <div className="d-flex justify-content-center align-items-center">
@@ -100,10 +152,11 @@ export const Checkout = () => {
             <h2>{book?.title}</h2>
             <h5 className="text-primary">{book?.author}</h5>
             <p className="lead">{book?.description}</p>
-            <StarsReview rating={0} size={0} />
+            <StarsReview rating={totalStars} size={32} />
           </div>
         </div>
-        <CheckoutAndReviewBox book={book} mobile={false} />
+        <CheckoutAndReviewBox book={book} mobile={true} />
+        <LatestReviews reviews={reviews} bookId={book?.id} mobile={true} />
         <hr />
       </div>
     </div>
