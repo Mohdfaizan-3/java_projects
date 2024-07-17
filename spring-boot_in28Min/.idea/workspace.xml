@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="582eeb96-6ed3-4c8f-afe9-8c00d8bf6f4a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../electronic_store/src/main/java/com/lg/electronic_store/entities/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../electronic_store/src/main/java/com/lg/electronic_store/repositories/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../journal-app-edigest-springboot/.idea/journal-app-edigest-springboot.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../library-app-react-springboot/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../library-app-react-springboot/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../library-app-react-springboot/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../library-app-react-springboot/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../library-app-react-springboot/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../library-app-react-springboot/frontend/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../library-app-react-springboot/frontend/src/layout/checkout/Checkout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../library-app-react-springboot/frontend/src/layout/checkout/Checkout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../library-app-react-springboot/starter/Scripts/React-SpringBoot-Add-Books-Script-2.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../library-app-react-springboot/starter/Scripts/React-SpringBoot-Add-Books-Script-2.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../library-app-react-springboot/starter/Scripts/React-Springboot-Add-Tables-Script-1.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../library-app-react-springboot/starter/Scripts/React-Springboot-Add-Tables-Script-1.sql" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="2jMZ6b6rKGKxp4AuladUxFr4yds" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/faiza/OneDrive/Desktop/java_project/spring-boot_in28Min"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="582eeb96-6ed3-4c8f-afe9-8c00d8bf6f4a" name="Changes" comment="" />
+      <created>1721198732307</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1721198732307</updated>
+    </task>
+    <servers />
+  </component>
+</project>
