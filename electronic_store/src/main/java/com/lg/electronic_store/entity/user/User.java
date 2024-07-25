@@ -24,6 +24,9 @@ public class User {
     @Column(name = "password", length = 60, nullable = false)
     private String password;
 
-    @Column(name = "profile_img")
+    @Column(name = "user_image")
     private String profileImage;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
+//    private Image profileImage;
 }

@@ -1,4 +1,4 @@
-package com.lg.electronic_store.utils.apiResponse;
+package com.lg.electronic_store.utils.Image;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,8 @@ import org.springframework.http.HttpStatus;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiResponse {
+public class ImageResponse {
+    private String imageName;
     private String message;
     private boolean success;
     private HttpStatus status;

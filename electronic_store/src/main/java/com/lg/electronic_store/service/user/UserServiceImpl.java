@@ -7,11 +7,18 @@ import com.lg.electronic_store.repository.user.UserRepository;
 import com.lg.electronic_store.utils.apiResponse.PagableResponseHelper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,11 +27,17 @@ public class UserServiceImpl implements UserService {
 
     private final ModelMapper modelMapper;
 
+    @Value("${user.profile.image.path}")
+    private String imageUploadPath;
+
+//    private final ImageRepository imageRepository;
+
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+//        this.imageRepository = imageRepository;
     }
 
     @Override
@@ -44,6 +57,7 @@ public class UserServiceImpl implements UserService {
         user.setUsername(userRequest.getUsername());
         user.setEmail(userRequest.getEmail());
         user.setPassword(userRequest.getPassword());
+        user.setProfileImage(userRequest.getProfileImage());
         User updatedUser = userRepository.save(user);
         return entityToDto(updatedUser);
     }
@@ -53,6 +67,15 @@ public class UserServiceImpl implements UserService {
     public void delete(String id) {
         User user = userRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        String fullPath = imageUploadPath + File.separator + user.getProfileImage();
+        Path path = Paths.get(fullPath);
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         userRepository.delete(user);
     }
 
@@ -80,4 +103,35 @@ public class UserServiceImpl implements UserService {
     private User dtoToEntity(UserRequest user) {
         return modelMapper.map(user, User.class);
     }
+
+
+    //  @Override
+//    public ResponseEntity<?> uploadImage(MultipartFile file, String id) throws IOException {
+//
+//        Image imageData = imageRepository.save(Image.builder()
+//                .name(file.getOriginalFilename())
+//                .type(file.getContentType())
+//                .imageData(ImageUtils.compressImage(file.getBytes())).build());
+//
+//        if (imageData != null) {
+//            return "File uploaded successfully";
+//        }
+//
+//        User user = userRepository.findById(Long.valueOf(id))
+//                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+//        user.setProfileImage(imageData);
+//        User updatedUser = userRepository.save(user);
+//
+//        return updatedUser;
+//    }
+
+//    @Override
+//    public byte[] downloadImage(Long id) {
+//        Optional<Image> dbImageData = imageRepository.findById(id);
+//        if (dbImageData.isPresent()) {
+//            return ImageUtils.decompressImage(dbImageData.get().getImageData());
+//        } else {
+//            throw new ResourceNotFoundException("Image not found with id: " + id);
+//        }
+//    }
 }

@@ -1,24 +1,39 @@
 package com.lg.electronic_store.controller.user;
 
 import com.lg.electronic_store.dao.user.UserRequest;
+import com.lg.electronic_store.service.file.FileService;
 import com.lg.electronic_store.service.user.UserService;
+import com.lg.electronic_store.utils.Image.ImageResponse;
 import com.lg.electronic_store.utils.apiResponse.ApiResponse;
 import com.lg.electronic_store.utils.apiResponse.PagableResponseHelper;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     private UserService userService;
+    private FileService fileService;
+
+    @Value("${user.profile.image.path}")
+    private String imageUploadPath;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, FileService fileService) {
         this.userService = userService;
+        this.fileService = fileService;
     }
 
     @PostMapping
@@ -58,4 +73,26 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @PostMapping("/{userId}/uploadImage")
+    public ResponseEntity<ImageResponse> uploadUserImage(@RequestParam("userImage") MultipartFile file,
+                                                         @PathVariable("userId") String id) throws IOException {
+
+        String imageName = fileService.uploadFile(file, imageUploadPath);
+        ImageResponse imageResponse = ImageResponse.builder().imageName(imageName).success(true).message("created").build();
+        UserRequest user = userService.getUser(id);
+        user.setProfileImage(imageName);
+        userService.update(user, id);
+        return new ResponseEntity<>(imageResponse, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}/getProfileImg")
+    public void downloadUserImage(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
+        UserRequest user = userService.getUser(id);
+        InputStream resource = fileService.getResource(imageUploadPath, user.getProfileImage());
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(resource, response.getOutputStream());
+    }
 }
+
+
+
