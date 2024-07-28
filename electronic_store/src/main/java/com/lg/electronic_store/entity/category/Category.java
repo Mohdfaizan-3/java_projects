@@ -1,11 +1,19 @@
 package com.lg.electronic_store.entity.category;
 
+import com.lg.electronic_store.entity.product.Product;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "categories")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,4 +27,23 @@ public class Category {
 
     @Column(name = "image")
     private String image;
+
+    @OneToMany(mappedBy = "category",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                    CascadeType.DETACH, CascadeType.REFRESH})
+    private List<Product> products = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(id, category.id) && Objects.equals(title, category.title) && Objects.equals(description, category.description) && Objects.equals(image, category.image);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, image);
+    }
 }

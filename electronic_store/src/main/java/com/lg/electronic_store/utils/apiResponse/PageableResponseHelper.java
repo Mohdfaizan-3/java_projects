@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
-public class PagableResponseHelper<T> {
+public class PageableResponseHelper<T> {
 
     private List<T> content;
     private int pageNumber;
@@ -18,7 +18,7 @@ public class PagableResponseHelper<T> {
     private long totalElements;
     private boolean lastPage;
 
-    public static <U, V> PagableResponseHelper<V> getPagableResponse(Page<U> pages, Class<V> type) {
+    public static <U, V> PageableResponseHelper<V> getPageableResponse(Page<U> pages, Class<V> type) {
         List<U> entityList = pages.getContent();
         ModelMapper modelMapper = new ModelMapper();
 
@@ -26,7 +26,7 @@ public class PagableResponseHelper<T> {
                 .map(entity -> modelMapper.map(entity, type))
                 .collect(Collectors.toList());
 
-        PagableResponseHelper<V> pagableResponse = new PagableResponseHelper<>();
+        PageableResponseHelper<V> pagableResponse = new PageableResponseHelper<>();
         pagableResponse.setContent(dtoList);
         pagableResponse.setPageNumber(pages.getNumber() + 1);
         pagableResponse.setPageSize(pages.getSize());

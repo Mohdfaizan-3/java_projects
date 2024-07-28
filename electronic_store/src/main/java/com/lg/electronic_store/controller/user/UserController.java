@@ -5,7 +5,7 @@ import com.lg.electronic_store.service.file.FileService;
 import com.lg.electronic_store.service.user.UserService;
 import com.lg.electronic_store.utils.Image.ImageResponse;
 import com.lg.electronic_store.utils.apiResponse.ApiResponse;
-import com.lg.electronic_store.utils.apiResponse.PagableResponseHelper;
+import com.lg.electronic_store.utils.apiResponse.PageableResponseHelper;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private UserService userService;
-    private FileService fileService;
+    private final UserService userService;
+    private final FileService fileService;
 
     @Value("${user.profile.image.path}")
     private String imageUploadPath;
@@ -43,7 +44,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserRequest> updateUser(@Valid @RequestBody UserRequest userRequest, @PathVariable("id") String id) {
+    public ResponseEntity<UserRequest> updateUser(
+            @Valid @RequestBody UserRequest userRequest, @PathVariable("id") String id) {
+
         UserRequest userRequest1 = userService.update(userRequest, id);
         return new ResponseEntity<>(userRequest1, HttpStatus.OK);
     }
@@ -65,20 +68,24 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<PagableResponseHelper<UserRequest>> getAllUsers(@RequestParam(value = "page", defaultValue = "0", required = false) int page,
-                                                                          @RequestParam(value = "size", defaultValue = "5", required = false) int size,
-                                                                          @RequestParam(value = "sortBy", defaultValue = "username", required = false) String sortBy,
-                                                                          @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir) {
-        PagableResponseHelper<UserRequest> users = userService.getAll(page, size, sortBy, sortDir);
+    public ResponseEntity<PageableResponseHelper<UserRequest>> getAllUsers(
+            @RequestParam(value = "page", defaultValue = "1", required = false) int page,
+            @RequestParam(value = "size", defaultValue = "5", required = false) int size,
+            @RequestParam(value = "sortBy", defaultValue = "username", required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir) {
+
+        PageableResponseHelper<UserRequest> users = userService.getAll(page, size, sortBy, sortDir);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PostMapping("/{userId}/uploadImage")
-    public ResponseEntity<ImageResponse> uploadUserImage(@RequestParam("userImage") MultipartFile file,
-                                                         @PathVariable("userId") String id) throws IOException {
+    public ResponseEntity<ImageResponse> uploadUserImage(
+            @RequestParam("userImage") MultipartFile file,
+            @PathVariable("userId") String id) throws IOException {
 
         String imageName = fileService.uploadFile(file, imageUploadPath);
-        ImageResponse imageResponse = ImageResponse.builder().imageName(imageName).success(true).message("created").build();
+        ImageResponse imageResponse = ImageResponse.builder().imageName(imageName)
+                .success(true).message("created").build();
         UserRequest user = userService.getUser(id);
         user.setProfileImage(imageName);
         userService.update(user, id);
@@ -91,6 +98,14 @@ public class UserController {
         InputStream resource = fileService.getResource(imageUploadPath, user.getProfileImage());
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(resource, response.getOutputStream());
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UserRequest> partialUpdate(
+            @PathVariable(name = "id") Long id,@RequestBody Map<String, Object> updates) {
+
+        UserRequest userDto = userService.partialUpdate(id, updates);
+        return new ResponseEntity<>(userDto, HttpStatus.CREATED);
     }
 }
 

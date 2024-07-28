@@ -4,21 +4,24 @@ import com.lg.electronic_store.dao.user.UserRequest;
 import com.lg.electronic_store.entity.user.User;
 import com.lg.electronic_store.exception.ResourceNotFoundException;
 import com.lg.electronic_store.repository.user.UserRepository;
-import com.lg.electronic_store.utils.apiResponse.PagableResponseHelper;
+import com.lg.electronic_store.utils.apiResponse.PageableResponseHelper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -80,12 +83,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PagableResponseHelper<UserRequest> getAll(int page, int size, String sortBy, String sortDir) {
+    public PageableResponseHelper<UserRequest> getAll(int page, int size, String sortBy, String sortDir) {
 
         Sort sort = sortDir.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
         PageRequest pageRequest = PageRequest.of(page - 1, size, sort);
         Page<User> pages = userRepository.findAll(pageRequest);
-        return PagableResponseHelper.getPagableResponse(pages, UserRequest.class);
+        return PageableResponseHelper.getPageableResponse(pages, UserRequest.class);
     }
 
     @Override
@@ -93,6 +96,20 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return entityToDto(user);
+    }
+
+    @Override
+    public UserRequest partialUpdate(Long id, Map<String, Object> updates) {
+        User user = userRepository.findById(Long.valueOf(id))
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        updates.forEach((field, value) -> {
+            Field fieldToBeUpdated = ReflectionUtils.findRequiredField(User.class, field);
+            fieldToBeUpdated.setAccessible(true);
+            ReflectionUtils.setField(fieldToBeUpdated, user, value);
+        });
+
+        return modelMapper.map(userRepository.save(user), UserRequest.class);
     }
 
     private UserRequest entityToDto(User user) {
