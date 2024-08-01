@@ -71,6 +71,11 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
+        if (user.getProfileImage() == null) {
+            userRepository.delete(user);
+            return;
+        }
+
         String fullPath = imageUploadPath + File.separator + user.getProfileImage();
         Path path = Paths.get(fullPath);
         try {
@@ -110,6 +115,13 @@ public class UserServiceImpl implements UserService {
         });
 
         return modelMapper.map(userRepository.save(user), UserRequest.class);
+    }
+
+    @Override
+    public UserRequest getUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return entityToDto(user);
     }
 
     private UserRequest entityToDto(User user) {

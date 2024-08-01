@@ -1,9 +1,6 @@
 package com.lg.electronic_store.dao.product;
 
-import com.lg.electronic_store.dao.category.CategoryDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,6 +8,8 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class ProductDto {
 
     private Long id;
@@ -29,11 +28,11 @@ public class ProductDto {
 
     private BigDecimal discount;
 
-    private int quantity;
-
     private LocalDate date;
 
     private boolean live;
+
+    private int availableQuantity;
 
     private boolean available;
 

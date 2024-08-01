@@ -41,7 +41,8 @@ public class ProductServiceImpl implements ProductService {
         Product product = modelMapper.map(productDto, Product.class);
         product.setCategory(category);
         Product saved = productRepository.save(product);
-        return modelMapper.map(saved, ProductDto.class);
+        ProductDto map = modelMapper.map(saved, ProductDto.class);
+        return map;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
         product.setTitle(productDto.getTitle());
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
-        product.setQuantity(productDto.getQuantity());
+        product.setAvailableQuantity(productDto.getAvailableQuantity());
         product.setImageUrl(productDto.getImageUrl());
         product.setAvailable(productDto.isAvailable());
         product.setLive(productDto.isLive());
