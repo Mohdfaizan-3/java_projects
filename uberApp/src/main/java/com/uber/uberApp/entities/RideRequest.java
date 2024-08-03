@@ -1,6 +1,6 @@
 package com.uber.uberApp.entities;
 
-import com.uber.uberApp.entities.enums.Payment;
+import com.uber.uberApp.entities.enums.PaymentMethod;
 import com.uber.uberApp.entities.enums.RideRequestStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,16 +10,19 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.locationtech.jts.geom.Point;
 
-import java.awt.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
+/**
+ * Represents a Ride Request in the UberApp system.
+ * This entity captures details of a ride request including locations, rider, payment method, and status.
+ */
+@Entity
 @Getter
 @Setter
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class RideRequest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,8 +40,9 @@ public class RideRequest {
     private Rider rider;
 
     @Enumerated(EnumType.STRING)
-    private Payment paymentMethod;
+    private PaymentMethod paymentMethod;
 
     @Enumerated(EnumType.STRING)
     private RideRequestStatus rideRequestStatus;
+
 }

@@ -6,20 +6,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
+/**
+ * Represents a Rider in the UberApp system.
+ * A Rider is associated with a User and has a rating.
+ */
+@Entity
 @Getter
 @Setter
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Rider {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     private Double rating;
+
 }

@@ -1,7 +1,6 @@
 package com.uber.uberApp.entities;
 
-import com.uber.uberApp.entities.enums.Payment;
-import com.uber.uberApp.entities.enums.RideRequestStatus;
+import com.uber.uberApp.entities.enums.PaymentMethod;
 import com.uber.uberApp.entities.enums.RideStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,11 +12,16 @@ import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
+/**
+ * Represents a Ride in the UberApp system.
+ * This entity captures details of an ongoing or completed ride including locations,
+ * rider, driver, payment method, status, and timing information.
+ */
+@Entity
 @Getter
 @Setter
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Ride {
 
     @Id
@@ -40,12 +44,17 @@ public class Ride {
     private Driver driver;
 
     @Enumerated(EnumType.STRING)
-    private Payment paymentMethod;
+    private PaymentMethod paymentMethod;
 
     @Enumerated(EnumType.STRING)
     private RideStatus rideStatus;
 
+    private String otp;
+
     private Double fare;
+
     private LocalDateTime startTime;
+
     private LocalDateTime endTime;
+
 }
