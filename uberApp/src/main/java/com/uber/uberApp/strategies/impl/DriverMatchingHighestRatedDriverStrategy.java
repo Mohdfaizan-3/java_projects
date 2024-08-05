@@ -1,7 +1,7 @@
 package com.uber.uberApp.strategies.impl;
 
-import com.uber.uberApp.dto.RideRequestDTO;
 import com.uber.uberApp.entities.Driver;
+import com.uber.uberApp.entities.RideRequest;
 import com.uber.uberApp.strategies.DriverMatchingStrategy;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 public class DriverMatchingHighestRatedDriverStrategy implements DriverMatchingStrategy {
 
     @Override
-    public List<Driver> findMatchedDriver(RideRequestDTO requestDTO) {
+    public List<Driver> findMatchedDriver(RideRequest rideRequest) {
         // TODO: Implement the logic to find and sort drivers based on their ratings
 
         return List.of();

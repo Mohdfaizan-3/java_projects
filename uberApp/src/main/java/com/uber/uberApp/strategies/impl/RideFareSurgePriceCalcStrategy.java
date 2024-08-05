@@ -1,6 +1,7 @@
 package com.uber.uberApp.strategies.impl;
 
 import com.uber.uberApp.dto.RideRequestDTO;
+import com.uber.uberApp.entities.RideRequest;
 import com.uber.uberApp.strategies.RideFareCalculationStrategy;
 
 /**
@@ -10,10 +11,9 @@ import com.uber.uberApp.strategies.RideFareCalculationStrategy;
  */
 public class RideFareSurgePriceCalcStrategy implements RideFareCalculationStrategy {
 
-    @Override
-    public double calculateFare(RideRequestDTO rideRequestDTO) {
-        // TODO: Implement surge pricing fare calculation logic
 
+    @Override
+    public double calculateFare(RideRequest rideRequest) {
         return 0;
     }
 }

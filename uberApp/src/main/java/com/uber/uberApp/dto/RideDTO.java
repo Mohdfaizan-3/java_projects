@@ -75,4 +75,6 @@ public class RideDTO {
      * Timestamp when the ride ended.
      */
     private LocalDateTime endTime;
+
+    private String otp;
 }

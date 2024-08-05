@@ -1,6 +1,7 @@
 package com.uber.uberApp.strategies;
 
 import com.uber.uberApp.dto.RideRequestDTO;
+import com.uber.uberApp.entities.RideRequest;
 
 /**
  * Strategy interface for calculating ride fares.
@@ -10,8 +11,7 @@ import com.uber.uberApp.dto.RideRequestDTO;
  */
 public interface RideFareCalculationStrategy {
 
-    /**
-     * Calculates the fare for a ride based on the given ride request details.
-     */
-    double calculateFare(RideRequestDTO rideRequestDTO);
+    static final double FARE_MULTIPLIER = 15;
+
+    double calculateFare(RideRequest rideRequest);
 }

@@ -29,12 +29,12 @@ public class RideRequestDTO {
     /**
      * Geographic point representing the pickup location.
      */
-    private Point pickupLocation;
+    private PointDTO pickupLocation;
 
     /**
      * Geographic point representing the drop-off location.
      */
-    private Point dropOffLocation;
+    private PointDTO dropOffLocation;
 
     /**
      * Timestamp when the ride was requested.

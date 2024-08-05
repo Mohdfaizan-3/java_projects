@@ -1,7 +1,7 @@
 package com.uber.uberApp.strategies;
 
-import com.uber.uberApp.dto.RideRequestDTO;
 import com.uber.uberApp.entities.Driver;
+import com.uber.uberApp.entities.RideRequest;
 
 import java.util.List;
 
@@ -13,13 +13,5 @@ import java.util.List;
  */
 public interface DriverMatchingStrategy {
 
-    /**
-     * Finds and returns a list of matched drivers for a given ride request.
-     *
-     * @param requestDTO The DTO containing details of the ride request, including
-     *                   pickup location, drop-off location, and any specific requirements.
-     * @return A list of Driver entities that match the criteria for the given ride request.
-     *         The list may be empty if no suitable drivers are found.
-     */
-    List<Driver> findMatchedDriver(RideRequestDTO requestDTO);
+    List<Driver> findMatchedDriver(RideRequest rideRequest);
 }
