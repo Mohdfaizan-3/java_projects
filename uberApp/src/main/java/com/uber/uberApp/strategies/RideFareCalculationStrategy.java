@@ -1,6 +1,5 @@
 package com.uber.uberApp.strategies;
 
-import com.uber.uberApp.dto.RideRequestDTO;
 import com.uber.uberApp.entities.RideRequest;
 
 /**
@@ -11,7 +10,7 @@ import com.uber.uberApp.entities.RideRequest;
  */
 public interface RideFareCalculationStrategy {
 
-    static final double FARE_MULTIPLIER = 15;
+    Double FARE_MULTIPLIER = 15.0;
 
-    double calculateFare(RideRequest rideRequest);
+    Double calculateFare(RideRequest rideRequest);
 }

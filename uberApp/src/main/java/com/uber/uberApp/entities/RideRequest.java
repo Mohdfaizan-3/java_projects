@@ -3,9 +3,7 @@ package com.uber.uberApp.entities;
 import com.uber.uberApp.entities.enums.PaymentMethod;
 import com.uber.uberApp.entities.enums.RideRequestStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.locationtech.jts.geom.Point;
@@ -19,18 +17,16 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class RideRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "GEOGRAPHY(Point, 4326)")
+    @Column(columnDefinition = "Geometry(Point, 4326)")
     private Point pickupLocation;
 
-    @Column(columnDefinition = "GEOGRAPHY(Point, 4326)")
+    @Column(columnDefinition = "Geometry(Point, 4326)")
     private Point dropOffLocation;
 
     @CreationTimestamp
@@ -42,9 +38,9 @@ public class RideRequest {
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
-    private double fare;
-
     @Enumerated(EnumType.STRING)
     private RideRequestStatus rideRequestStatus;
+
+    private Double fare;
 
 }

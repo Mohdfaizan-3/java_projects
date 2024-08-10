@@ -1,12 +1,12 @@
 package com.uber.uberApp.advices;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-@Getter
+@Data
 @Builder
 public class ApiError {
     private HttpStatus status;

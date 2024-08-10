@@ -28,10 +28,10 @@ public class Ride {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "GEOGRAPHY(Point, 4326)")
+    @Column(columnDefinition = "Geometry(Point, 4326)")
     private Point pickupLocation;
 
-    @Column(columnDefinition = "GEOGRAPHY(Point, 4326)")
+    @Column(columnDefinition = "Geometry(Point, 4326)")
     private Point dropOffLocation;
 
     @CreationTimestamp
@@ -40,7 +40,7 @@ public class Ride {
     @ManyToOne(fetch = FetchType.LAZY)
     private Rider rider;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Driver driver;
 
     @Enumerated(EnumType.STRING)

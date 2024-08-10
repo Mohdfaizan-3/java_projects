@@ -30,7 +30,7 @@ public class Driver {
 
     private Boolean available;
 
-    @Column(columnDefinition = "GEOGRAPHY(Point, 4326)")
+    @Column(columnDefinition = "Geometry(Point, 4326)")
     private Point currentLocation;
 
 }
