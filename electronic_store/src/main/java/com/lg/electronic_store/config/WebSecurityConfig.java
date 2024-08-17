@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,12 +23,21 @@ public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
 
+    private static final String[] PUBLIC_ROUTES = {
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/webjars/**"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(csrfConfig -> csrfConfig.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // Public endpoints
+                        // Swagger UI and public endpoints
+                        .requestMatchers(PUBLIC_ROUTES).permitAll()
                         .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/categories/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
@@ -56,10 +64,12 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/users/**").hasAnyRole(USER.name(), ADMIN.name())
 
                         .anyRequest().authenticated()
-                );
-        httpSecurity.sessionManagement((session)-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        httpSecurity.httpBasic(Customizer.withDefaults());
-        httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // Disable HTTP Basic for API endpoints
+        httpSecurity.httpBasic(httpBasic -> httpBasic.disable());
 
         return httpSecurity.build();
     }
