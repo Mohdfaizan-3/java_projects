@@ -3,7 +3,7 @@ package com.lg.electronic_store.controller.order;
 import com.lg.electronic_store.dao.order.OrderDto;
 import com.lg.electronic_store.dao.order.ResponseOrderDto;
 import com.lg.electronic_store.dao.product.ProductDto;
-import com.lg.electronic_store.dao.user.UserRequest;
+import com.lg.electronic_store.dao.user.UserDTO;
 import com.lg.electronic_store.entity.shoppingCart.ShoppingCart;
 import com.lg.electronic_store.entity.shoppingCartItem.ShoppingCartItem;
 import com.lg.electronic_store.entity.user.User;
@@ -45,7 +45,7 @@ public class OrderController {
     public ResponseEntity<ResponseOrderDto> placeOrder(@RequestBody OrderDto orderDto) {
         logger.info("Received order request: {}", orderDto);
 
-        UserRequest user = userService.getUser(orderDto.getUserId());
+        UserDTO user = userService.getUser(orderDto.getUserId());
         logger.info("Found user: {}", user);
 
         List<ShoppingCartItem> cartItems = orderDto.getCartItems().stream()

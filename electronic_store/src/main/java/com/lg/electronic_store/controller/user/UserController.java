@@ -1,6 +1,6 @@
 package com.lg.electronic_store.controller.user;
 
-import com.lg.electronic_store.dao.user.UserRequest;
+import com.lg.electronic_store.dao.user.UserDTO;
 import com.lg.electronic_store.service.file.FileService;
 import com.lg.electronic_store.service.user.UserService;
 import com.lg.electronic_store.utils.Image.ImageResponse;
@@ -36,19 +36,19 @@ public class UserController {
         this.userService = userService;
         this.fileService = fileService;
     }
-
-    @PostMapping
-    public ResponseEntity<UserRequest> createUser(@Valid @RequestBody UserRequest userRequest) {
-        UserRequest userRequest1 = userService.create(userRequest);
-        return new ResponseEntity<>(userRequest1, HttpStatus.CREATED);
-    }
+//
+//    @PostMapping
+//    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
+//        UserDTO userDTO1 = userService.create(userDTO);
+//        return new ResponseEntity<>(userDTO1, HttpStatus.CREATED);
+//    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserRequest> updateUser(
-            @Valid @RequestBody UserRequest userRequest, @PathVariable("id") String id) {
+    public ResponseEntity<UserDTO> updateUser(
+            @Valid @RequestBody UserDTO userDTO, @PathVariable("id") String id) {
 
-        UserRequest userRequest1 = userService.update(userRequest, id);
-        return new ResponseEntity<>(userRequest1, HttpStatus.OK);
+        UserDTO userDTO1 = userService.update(userDTO, id);
+        return new ResponseEntity<>(userDTO1, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -62,19 +62,19 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserRequest> getUser(@PathVariable String id) {
-        UserRequest userRequest = userService.getUser(id);
-        return new ResponseEntity<>(userRequest, HttpStatus.FOUND);
+    public ResponseEntity<UserDTO> getUser(@PathVariable String id) {
+        UserDTO userDTO = userService.getUser(id);
+        return new ResponseEntity<>(userDTO, HttpStatus.FOUND);
     }
 
     @GetMapping
-    public ResponseEntity<PageableResponseHelper<UserRequest>> getAllUsers(
+    public ResponseEntity<PageableResponseHelper<UserDTO>> getAllUsers(
             @RequestParam(value = "page", defaultValue = "1", required = false) int page,
             @RequestParam(value = "size", defaultValue = "5", required = false) int size,
-            @RequestParam(value = "sortBy", defaultValue = "username", required = false) String sortBy,
+            @RequestParam(value = "sortBy", defaultValue = "name", required = false) String sortBy,
             @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir) {
 
-        PageableResponseHelper<UserRequest> users = userService.getAll(page, size, sortBy, sortDir);
+        PageableResponseHelper<UserDTO> users = userService.getAll(page, size, sortBy, sortDir);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
@@ -86,7 +86,7 @@ public class UserController {
         String imageName = fileService.uploadFile(file, imageUploadPath);
         ImageResponse imageResponse = ImageResponse.builder().imageName(imageName)
                 .success(true).message("created").build();
-        UserRequest user = userService.getUser(id);
+        UserDTO user = userService.getUser(id);
         user.setProfileImage(imageName);
         userService.update(user, id);
         return new ResponseEntity<>(imageResponse, HttpStatus.CREATED);
@@ -94,17 +94,17 @@ public class UserController {
 
     @GetMapping("/{id}/getProfileImg")
     public void downloadUserImage(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
-        UserRequest user = userService.getUser(id);
+        UserDTO user = userService.getUser(id);
         InputStream resource = fileService.getResource(imageUploadPath, user.getProfileImage());
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(resource, response.getOutputStream());
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserRequest> partialUpdate(
+    public ResponseEntity<UserDTO> partialUpdate(
             @PathVariable(name = "id") Long id,@RequestBody Map<String, Object> updates) {
 
-        UserRequest userDto = userService.partialUpdate(id, updates);
+        UserDTO userDto = userService.partialUpdate(id, updates);
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);
     }
 }

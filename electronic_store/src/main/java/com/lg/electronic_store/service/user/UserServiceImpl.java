@@ -1,6 +1,6 @@
 package com.lg.electronic_store.service.user;
 
-import com.lg.electronic_store.dao.user.UserRequest;
+import com.lg.electronic_store.dao.user.UserDTO;
 import com.lg.electronic_store.entity.user.User;
 import com.lg.electronic_store.exception.ResourceNotFoundException;
 import com.lg.electronic_store.repository.user.UserRepository;
@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.util.ReflectionUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,11 +25,14 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 @Service
+
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
     private final ModelMapper modelMapper;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${user.profile.image.path}")
     private String imageUploadPath;
@@ -37,30 +41,37 @@ public class UserServiceImpl implements UserService {
 
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
 //        this.imageRepository = imageRepository;
+        this.passwordEncoder = passwordEncoder;
     }
+
+//    @Override
+//    @Transactional
+//    public UserDTO create(UserDTO userDTO) {
+//        Optional<User> isUserExist = userRepository.findByEmail(userDTO.getEmail());
+//        if(isUserExist.isPresent()) {
+//            throw new BadCredentialsException("User with email already exits "+ userDTO.getEmail());
+//        }
+//        User user = dtoToEntity(userDTO);
+//       user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        User savedUser = userRepository.save(user);
+//        return entityToDto(savedUser);
+//    }
 
     @Override
     @Transactional
-    public UserRequest create(UserRequest userRequest) {
-        User user = dtoToEntity(userRequest);
-        User savedUser = userRepository.save(user);
-        return entityToDto(savedUser);
-    }
-
-    @Override
-    @Transactional
-    public UserRequest update(UserRequest userRequest, String id) {
+    public UserDTO update(UserDTO userDTO, String id) {
 
         User user = userRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        user.setUsername(userRequest.getUsername());
-        user.setEmail(userRequest.getEmail());
-        user.setPassword(userRequest.getPassword());
-        user.setProfileImage(userRequest.getProfileImage());
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setProfileImage(userDTO.getProfileImage());
+        user.setRoles(userDTO.getRoles());
         User updatedUser = userRepository.save(user);
         return entityToDto(updatedUser);
     }
@@ -88,23 +99,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageableResponseHelper<UserRequest> getAll(int page, int size, String sortBy, String sortDir) {
+    public PageableResponseHelper<UserDTO> getAll(int page, int size, String sortBy, String sortDir) {
 
         Sort sort = sortDir.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
         PageRequest pageRequest = PageRequest.of(page - 1, size, sort);
         Page<User> pages = userRepository.findAll(pageRequest);
-        return PageableResponseHelper.getPageableResponse(pages, UserRequest.class);
+        return PageableResponseHelper.getPageableResponse(pages, UserDTO.class);
     }
 
     @Override
-    public UserRequest getUser(String id) {
+    public UserDTO getUser(String id) {
         User user = userRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return entityToDto(user);
     }
 
     @Override
-    public UserRequest partialUpdate(Long id, Map<String, Object> updates) {
+    public UserDTO partialUpdate(Long id, Map<String, Object> updates) {
         User user = userRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
@@ -114,22 +125,22 @@ public class UserServiceImpl implements UserService {
             ReflectionUtils.setField(fieldToBeUpdated, user, value);
         });
 
-        return modelMapper.map(userRepository.save(user), UserRequest.class);
+        return modelMapper.map(userRepository.save(user), UserDTO.class);
     }
 
     @Override
-    public UserRequest getUser(Long userId) {
+    public UserDTO getUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return entityToDto(user);
     }
 
-    private UserRequest entityToDto(User user) {
-        return modelMapper.map(user, UserRequest.class);
+    private UserDTO entityToDto(User user) {
+        return modelMapper.map(user, UserDTO.class);
     }
 
 
-    private User dtoToEntity(UserRequest user) {
+    private User dtoToEntity(UserDTO user) {
         return modelMapper.map(user, User.class);
     }
 

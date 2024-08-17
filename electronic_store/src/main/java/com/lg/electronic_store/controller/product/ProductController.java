@@ -1,7 +1,6 @@
 package com.lg.electronic_store.controller.product;
 
 import com.lg.electronic_store.dao.product.ProductDto;
-import com.lg.electronic_store.dao.user.UserRequest;
 import com.lg.electronic_store.service.file.FileService;
 import com.lg.electronic_store.service.product.ProductService;
 import com.lg.electronic_store.utils.Image.ImageResponse;
@@ -61,7 +60,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> create(@PathVariable Long id) {
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
         ProductDto productDto1 = productService.get(id);
         return new ResponseEntity<>(productDto1, HttpStatus.FOUND);
     }
